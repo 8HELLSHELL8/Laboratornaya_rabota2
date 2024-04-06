@@ -1,0 +1,42 @@
+// Функция для вычисления минимального количества операций
+function minOperations(inputString) {
+    // Получаем длину входной строки
+    const n = inputString.length;
+    // Создаем массив для хранения минимального количества операций для каждого индекса
+    const dp = new Array(n + 1).fill(0);
+    // Создаем объект для хранения последнего вхождения каждого символа
+    const lastOccurrence = {};
+
+    // Проходим по каждому символу входной строки
+    for (let i = 1; i <= n; i++) {
+        // Инициализируем dp[i] как dp[i-1] + 1, предполагая, что необходимо добавить один символ
+        dp[i] = dp[i - 1] + 1;
+
+        // Если последнее вхождение текущего символа существует в объекте lastOccurrence
+        if (lastOccurrence[inputString[i - 1]] !== undefined) {
+            // Обновляем dp[i] как минимум между текущим dp[i] и dp послед-него вхождения символа + 1
+            dp[i] = Math.min(dp[i], dp[lastOccurrence[inputString[i - 1]]] + 1);
+        }
+
+        // Обновляем объект lastOccurrence последним индексом текущего символа
+        lastOccurrence[inputString[i - 1]] = i;
+    }
+
+    // Возвращаем минимальное количество операций для всей строки
+    return dp[n];
+}
+
+// Создаем интерфейс для чтения ввода пользователя из стандартного по-тока ввода
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// Задаем вопрос пользователю и ожидаем ввода
+rl.question("", function(inputString) {
+    // Вызываем функцию minOperations и выводим результат
+    console.log(minOperations(inputString));
+    // Закрываем интерфейс чтения
+    rl.close();
+});

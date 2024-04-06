@@ -1,0 +1,54 @@
+INCLUDE Irvine32.inc
+
+.data
+    matches DWORD ?
+    n DWORD 7 ; Предопределенное значение количества команд
+
+.code
+tournament_matches PROC
+    mov matches, 0
+    
+    while_loop:
+        cmp n, 1
+        jle end_while
+        
+        test n, 1
+        jz even_case
+
+        ; Нечетное
+        mov eax, n
+        dec eax
+        shr eax, 1
+        add matches, eax
+        inc n
+        jmp next_iteration
+
+        even_case:
+        ; Четное
+        mov eax, n
+        shr eax, 1
+        add matches, eax
+
+        next_iteration:
+        shr n, 1
+        jmp while_loop
+
+    end_while:
+    ret
+tournament_matches ENDP
+
+main PROC
+    ; Вызов функции tournament_matches
+    call tournament_matches
+
+    ; Вывод результата
+    mov eax, matches
+    call WriteDec
+    call Crlf
+
+    ; Завершение программы
+    call ExitProcess
+
+main ENDP
+
+END main

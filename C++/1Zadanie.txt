@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+// Функция для вычисления минимального количества операций
+int minOperations(const std::string& inputString) {
+    // Получаем длину входной строки
+    int n = inputString.length();
+    // Создаем массив dp для хранения минимального количества операций для каждого индекса
+    int dp[n + 1];
+    // Создаем хэш-таблицу lastOccurrence для хранения последнего вхож-дения каждого символа
+    std::unordered_map<char, int> lastOccurrence;
+
+    // Инициализируем dp[0] как 0
+    dp[0] = 0;
+
+    // Проходим по каждому символу входной строки
+    for (int i = 1; i <= n; i++) {
+        // Инициализируем dp[i] как dp[i-1] + 1, предполагая, что необходимо добавить один символ
+        dp[i] = dp[i - 1] + 1;
+
+        // Если текущий символ уже встречался ранее
+        if (lastOccurrence.find(inputString[i - 1]) != lastOccurrence.end()) {
+            // Обновляем dp[i] как минимум между текущим dp[i] и dp послед-него вхождения символа + 1
+            dp[i] = std::min(dp[i], dp[lastOccurrence[inputString[i - 1]]] + 1);
+        }
+
+        // Обновляем хэш-таблицу lastOccurrence последним индексом теку-щего символа
+        lastOccurrence[inputString[i - 1]] = i;
+    }
+
+    // Возвращаем минимальное количество операций для всей строки
+    return dp[n];
+}
+
+int main() {
+    std::string inputString;
+    // Выводим приглашение для пользователя ввести строку
+    std::cout << "Введите строку: ";
+    // Считываем введенную строку
+    std::getline(std::cin, inputString);
+    // Вызываем функцию minOperations и выводим результат
+    std::cout << "Минимальное количество операций: " << minOpera-tions(inputString) << std::endl;
+    return 0;
+}

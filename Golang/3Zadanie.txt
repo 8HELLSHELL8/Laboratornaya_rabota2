@@ -1,0 +1,44 @@
+package main
+
+import (
+	"fmt"
+)
+
+// Функция reverseNumber переворачивает заданное число.
+func reverseNumber(num int) int {
+	reversed := 0
+	for num > 0 {
+		reversed = reversed*10 + num%10 // Получаем последнюю циф-ру числа и добавляем ее к перевернутому числу
+		num /= 10                       // Удаляем последнюю цифру числа
+	}
+	return reversed
+}
+
+// Функция isDecreasingSequence проверяет, является ли последователь-ность цифр числа строго убывающей.
+func isDecreasingSequence(num int) bool {
+	prevDigit := num % 10 // Получаем последнюю цифру числа
+	num /= 10            // Удаляем последнюю цифру числа
+	for num > 0 {
+		digit := num % 10 // Получаем текущую цифру числа
+		if digit >= prevDigit {
+			return false // Если текущая цифра больше или равна предыдущей, последовательность не является убывающей
+		}
+		prevDigit = digit // Обновляем предыдущую цифру
+		num /= 10        // Удаляем последнюю цифру числа
+	}
+	return true // Возвращаем true, если последовательность убывающая
+}
+
+func main() {
+	var n, number int
+	fmt.Println("Введите количество чисел:")
+	fmt.Scan(&n) // Запрашиваем количество чисел у пользователя
+	fmt.Println("Введите числа по одному:")
+	for i := 0; i < n; i++ {
+		fmt.Scan(&number) // Запрашиваем число у пользователя
+		if isDecreasingSequence(number) {
+			fmt.Printf("%d ", reverseNumber(number)) // Выводим пе-ревернутое число, если последовательность убывающая
+		}
+	}
+}
+

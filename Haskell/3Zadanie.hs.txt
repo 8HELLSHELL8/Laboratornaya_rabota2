@@ -1,0 +1,33 @@
+-- Функция для проверки, является ли число составленным из цифр, иду-щих по возрастанию
+isIncreasingDigits :: Int -> Bool
+isIncreasingDigits number = isIncreasingHelper (show number) '0'
+
+-- Вспомогательная функция для проверки, является ли строка числа со-ставленной из цифр, идущих по возрастанию
+isIncreasingHelper :: String -> Char -> Bool
+isIncreasingHelper [] _ = True -- Пустая строка считается составленной из цифр, идущих по возрастанию
+isIncreasingHelper (x:xs) prev
+    | x <= prev = False -- Если текущая цифра не больше предыдущей, стро-ка не удовлетворяет условию
+    | otherwise = isIncreasingHelper xs x -- Рекурсивный вызов для оставших-ся цифр
+
+-- Функция для переворачивания числа
+reverseNumber :: Int -> Int
+reverseNumber number = reverseHelper number 0
+    where
+        reverseHelper 0 acc = acc -- Когда число становится нулем, возвраща-ется накопленный результат
+        reverseHelper num acc = reverseHelper (num `div` 10) (acc * 10 + num `mod` 10)
+
+-- Функция для обработки ввода и вывода результата
+processInput :: [Int] -> IO ()
+processInput [] = return () -- Если список пуст, завершить выполнение
+processInput (x:xs) = do
+    if isIncreasingDigits x
+        then putStrLn (show (reverseNumber x)) -- Если число удовлетворяет условию, вывести его, перевернув
+        else return () -- Если число не удовлетворяет условию, пропустить его
+    processInput xs -- Рекурсивный вызов для остальных чисел
+
+main :: IO ()
+main = do
+    putStrLn "Введите последовательность чисел:"
+    input <- getLine -- Считать строку ввода
+    let numbers = map read (words input) :: [Int] -- Преобразовать строку в список чисел
+    processInput numbers -- Обработать введенные числа

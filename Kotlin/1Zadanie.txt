@@ -1,0 +1,27 @@
+fun minOperations(inputString: String): Int {
+    val n = inputString.length
+    val dp = IntArray(n + 1) { 0 } // Массив для хранения минимального ко-личества операций для каждого индекса
+    val lastOccurrence = mutableMapOf<Char, Int>() // Хранит последнее вхождение символа
+
+    for (i in 1..n) {
+        dp[i] = dp[i - 1] + 1 // Инициализация значения dp[i] на основе преды-дущего значения
+
+        // Если текущий символ встречался ранее
+        if (inputString[i - 1] in lastOccurrence) {
+            // Обновляем значение dp[i] с учетом минимального числа операций
+            dp[i] = minOf(dp[i], dp[lastOccurrence[inputString[i - 1]]!!] + 1)
+        }
+
+        // Запоминаем индекс последнего вхождения текущего символа
+        lastOccurrence[inputString[i - 1]] = i
+    }
+
+    return dp[n] // Возвращаем минимальное количество операций для всей строки
+}
+
+fun main() {
+    // Читаем строку из ввода
+    val inputString = readLine()!!
+    // Вызываем функцию minOperations и выводим результат
+    println("${minOperations(inputString)}")
+}

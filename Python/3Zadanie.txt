@@ -1,0 +1,36 @@
+# Функция для переворота цифр числа
+def reverse_digits(num):
+    reversed_num = 0
+    while num > 0:
+        reversed_num = reversed_num * 10 + num % 10
+        num //= 10	
+    return reversed_num
+
+# Функция для проверки увеличивающейся последовательности цифр в числе
+def is_increasing(num):
+    prev_digit = num % 10
+    num //= 10
+    while num > 0:
+        digit = num % 10
+        if digit >= prev_digit:
+            return False
+        prev_digit = digit
+        num //= 10
+    return True
+
+# Функция для переворота и печати чисел, у которых цифры идут в воз-растающем порядке
+def reverse_and_print_numbers(num_count):
+    # Проходим через указанное количество чисел
+    for _ in range(num_count):
+        # Получаем число от пользователя
+        num = int(input())
+        # Если цифры числа идут в возрастающем порядке
+        if is_increasing(num):
+            # Переворачиваем число и выводим его
+            print(reverse_digits(num), end=' ')
+
+# Ввод количества чисел
+num_count = int(input())
+# Вызываем функцию для переворота и печати чисел
+reverse_and_print_numbers(num_count)
+

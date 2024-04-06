@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+public class ReverseAscendingNumbers {
+    public static void main(String[] args) {
+        // Создаем объект Scanner для чтения ввода пользователя
+        Scanner scanner = new Scanner(System.in);
+
+        // Печатаем приглашение для пользователя ввести последовательность чисел
+        System.out.println("Введите последовательность чисел через про-бел:");
+        
+        // Считываем введенную строку
+        String input = scanner.nextLine();
+
+        // Разделяем строку на числа по пробелам
+        String[] numbers = input.split(" ");
+        
+        // Проходим по каждому числу в массиве чисел
+        for (String number : numbers) {
+            // Если число состоит из цифр, идущих по возрастанию
+            if (isAscending(number)) {
+                // Выводим перевернутое число
+                System.out.print(reverseNumber(number) + " ");
+            }
+        }
+
+        // Закрываем объект Scanner
+        scanner.close();
+    }
+
+    // Проверка, является ли число составленным из цифр, идущих по воз-растанию
+    public static boolean isAscending(String number) {
+        // Проходим по каждой цифре в числе
+        for (int i = 0; i < number.length() - 1; i++) {
+            // Если текущая цифра больше или равна следующей цифре, число не идет по возрастанию
+            if (number.charAt(i) >= number.charAt(i + 1)) {
+                return false;
+            }
+        }
+        // Если проверка не прервана, возвращаем true
+        return true;
+    }
+
+    // Переворот числа
+    public static String reverseNumber(String number) {
+        // Создаем объект StringBuilder для построения перевернутой строки
+        StringBuilder reversed = new StringBuilder();
+        // Проходим по каждой цифре в обратном порядке
+        for (int i = number.length() - 1; i >= 0; i--) {
+            // Добавляем текущую цифру в начало строки
+            reversed.append(number.charAt(i));
+        }
+        // Возвращаем перевернутую строку
+        return reversed.toString();
+    }
+}
+

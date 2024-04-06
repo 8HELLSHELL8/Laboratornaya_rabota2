@@ -1,0 +1,68 @@
+using System;
+
+class Program
+{
+    // Функция для переворачивания числа
+    static int ReverseNumber(int num)
+    {
+        int reversed = 0;
+        // Пока число больше нуля
+        while (num > 0)
+        {
+            // Добавляем последнюю цифру числа к перевернутому числу
+            reversed = reversed * 10 + num % 10;
+            // Удаляем последнюю цифру из числа
+            num /= 10;
+        }
+        return reversed; // Возвращаем перевернутое число
+    }
+
+    // Функция для проверки, является ли последовательность цифр числа строго возрастающей
+    static bool IsDigitsAscending(int num)
+    {
+        int lastDigit = num % 10;
+        num /= 10;
+        // Пока число больше нуля
+        while (num > 0)
+        {
+            int currentDigit = num % 10;
+            // Если текущая цифра больше или равна предыдущей, последова-тельность не является возрастающей
+            if (currentDigit >= lastDigit)
+            {
+                return false;
+            }
+            lastDigit = currentDigit; // Обновляем предыдущую цифру
+            // Удаляем последнюю цифру из числа
+            num /= 10;
+        }
+        return true; // Возвращаем true, если последовательность возрастаю-щая
+    }
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Введите количество чисел:");
+        // Считываем количество чисел из ввода
+        if (!int.TryParse(Console.ReadLine(), out int count))
+        {
+            Console.WriteLine("Ошибка при вводе количества чисел.");
+            return;
+        }
+
+        Console.WriteLine($"Введите {count} чисел, разделенных пробелом:");
+        // Считываем числа, разделенные пробелом, из ввода
+        string[] numbers = Console.ReadLine()?.Split(' ');
+
+        Console.WriteLine("Результат:");
+        // Проходим по каждому введенному числу
+        foreach (string number in numbers)
+        {
+            // Пытаемся преобразовать строку в число
+            if (int.TryParse(number, out int num) && IsDigitsAscending(num))
+            {
+                // Если последовательность цифр в числе строго возрастающая, переворачиваем число и выводим результат
+                int reversed = ReverseNumber(num);
+                Console.Write($"{reversed} ");
+            }
+        }
+    }
+}

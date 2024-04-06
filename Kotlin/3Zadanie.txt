@@ -1,0 +1,52 @@
+// Функция reverseNumber переворачивает заданное число.
+fun reverseNumber(num: Int): Int {
+    var number = num // Создаем копию входного числа
+    var reversed = 0 // Инициализируем переменную для хранения перевер-нутого числа
+    // Пока число больше нуля
+    while (number > 0) {
+        reversed = reversed * 10 + number % 10 // Умножаем текущее перевер-нутое число на 10 и добавляем последнюю цифру в число
+        number /= 10 // Удаляем последнюю цифру из числа
+    }
+    return reversed // Возвращаем перевернутое число
+}
+
+// Функция isIncreasingSequence проверяет, является ли последовательность цифр числа строго возрастающей.
+fun isIncreasingSequence(num: Int): Boolean {
+    var number = num // Создаем копию входного числа
+    var prevDigit = number % 10 // Получаем последнюю цифру числа
+    number /= 10 // Удаляем последнюю цифру из числа
+    // Пока число больше нуля
+    while (number > 0) {
+        val digit = number % 10 // Получаем текущую цифру числа
+        // Если текущая цифра больше или равна предыдущей, последова-тельность не является возрастающей
+        if (digit >= prevDigit) {
+            return false
+        }
+        prevDigit = digit // Обновляем предыдущую цифру
+        number /= 10 // Удаляем последнюю цифру из числа
+    }
+    return true // Возвращаем true, если последовательность возрастающая
+}
+
+// Функция printReversedNumbers печатает перевернутые числа, удовле-творяющие условию возрастающей последовательности.
+fun printReversedNumbers(count: Int, vararg numbers: Int) {
+    // Проходим по каждому входному числу
+    for (i in 0 until count) {
+        val number = numbers[i] // Получаем текущее число
+        // Если последовательность цифр в числе строго возрастающая
+        if (isIncreasingSequence(number)) {
+            val reversed = reverseNumber(number) // Переворачиваем число
+            print("$reversed ") // Печатаем перевернутое число
+        }
+    }
+}
+
+fun main() {
+    val count = readLine()?.toIntOrNull() ?: return // Считываем количество чисел из ввода
+
+    val input = readLine() // Считываем числа через пробел
+    if (input != null) {
+        val nums = input.split(" ").mapNotNull { it.toIntOrNull() } // Разбиваем строку на числа и преобразуем их в список
+        printReversedNumbers(count, *nums.toIntArray()) // Вызываем функ-цию печати перевернутых чисел
+    }
+}

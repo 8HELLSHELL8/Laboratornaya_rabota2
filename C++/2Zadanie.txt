@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+int main() 
+{
+    // Запрашиваем количество команд у пользователя
+    int teamsAmount;
+    cin >> teamsAmount;
+    
+    int winner = teamsAmount;
+    int matches_played;
+    int counter_matches = 0;
+    // Пока есть победитель (1 команда)
+    while(winner != 1){
+        // Если количество команд четное
+        if (teamsAmount % 2 == 0) {
+            // Вычисляем количество сыгранных матчей (половина от общего количества команд)
+            matches_played = teamsAmount / 2;
+            // Обновляем количество победителей (половина от общего количе-ства команд)
+            winner = teamsAmount / 2;
+            // Уменьшаем общее количество команд на количество сыгранных матчей
+            teamsAmount -= matches_played;
+            // Увеличиваем счетчик сыгранных матчей
+            counter_matches += matches_played;
+        }
+        else {
+            // Если количество команд нечетное
+            // Вычисляем количество сыгранных матчей ((количество команд - 1) / 2)
+            matches_played = (teamsAmount - 1) / 2;
+            // Обновляем количество победителей (половина от общего количе-ства команд плюс одна команда)
+            winner = ((teamsAmount - 1) / 2) + 1;
+            // Уменьшаем общее количество команд на количество сыгранных матчей
+            teamsAmount -= matches_played;
+            // Увеличиваем счетчик сыгранных матчей
+            counter_matches += matches_played;
+        }
+    }
+    // Выводим информацию о количестве команд и сыгранных матчах
+    cout << "Amount of teams = " << teamsAmount << ", Matches played = " << counter_matches;
+}
+

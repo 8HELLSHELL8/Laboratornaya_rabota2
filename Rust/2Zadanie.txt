@@ -1,0 +1,25 @@
+use std::io;
+
+fn count_matches(mut n: u32) -> u32 {
+    let mut matches = 0;
+    while n > 1 {
+        if n % 2 == 0 {
+            matches += n / 2;
+            n /= 2;
+        } else {
+            matches += (n - 1) / 2;
+            n = (n - 1) / 2 + 1;
+        }
+    }
+    matches
+}
+
+fn main() {
+    println!("Введите количество команд в турнире:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("Ошибка чтения строки");
+    let n: u32 = input.trim().parse().expect("Введено некорректное число");
+
+    println!("Количество матчей: {}", count_matches(n));
+}
+

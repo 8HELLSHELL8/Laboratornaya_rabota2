@@ -1,0 +1,39 @@
+import Foundation
+
+// Функция для вычисления минимального количества операций
+func minOperations(_ inputString: String) -> Int {
+    // Получаем длину входной строки
+    let n = inputString.count
+    // Создаем массив для хранения минимального количества операций для каждого индекса
+    var dp = [Int](repeating: 0, count: n + 1)
+    // Создаем словарь для хранения последнего вхождения каждого симво-ла
+    var lastOccurrence = [Character: Int]()
+
+    // Проходим по каждому символу входной строки
+    for i in 1...n {
+        // Инициализируем dp[i] как dp[i-1] + 1, предполагая, что необходимо добавить один символ
+        dp[i] = dp[i - 1] + 1
+
+        // Получаем текущий символ
+        let currentChar = inputString[inputString.index(inputString.startIndex, offsetBy: i - 1)]
+        // Если последнее вхождение текущего символа существует в словаре lastOccurrence
+        if let index = lastOccurrence[currentChar] {
+            // Обновляем dp[i] как минимум между текущим dp[i] и dp послед-него вхождения символа + 1
+            dp[i] = min(dp[i], dp[index] + 1)
+        }
+
+        // Обновляем словарь lastOccurrence последним индексом текущего символа
+        lastOccurrence[currentChar] = i
+    }
+
+    // Возвращаем минимальное количество операций для всей строки
+    return dp[n]
+}
+
+// Печатаем приглашение для пользователя ввести строку
+print("Введите строку: ", terminator: "")
+// Считываем введенную строку
+if let inputString = readLine() {
+    // Вызываем функцию minOperations и выводим результат
+    print("Минимальное количество операций: \(minOperations(inputString))")
+}

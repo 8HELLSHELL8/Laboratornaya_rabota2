@@ -1,0 +1,74 @@
+// Подключаем модуль readline для взаимодействия с пользователем через консоль
+const readline = require('readline');
+
+// Создаем интерфейс для чтения из стандартного потока ввода (input) и записи в стандартный поток вывода (output)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Функция для переворачивания числа
+function reverseNumber(num) {
+  let reversed = 0;
+  // Пока число больше нуля
+  while (num > 0) {
+    // Получаем последнюю цифру числа и добавляем ее в перевернутое число
+    reversed = reversed * 10 + num % 10;
+    // Убираем последнюю цифру числа
+    num = Math.floor(num / 10);
+  }
+  return reversed;
+}
+
+// Функция для проверки, удовлетворяет ли число условиям задачи
+function satisfiesCondition(num) {
+  let prevDigit = 10;
+  // Пока число больше нуля
+  while (num > 0) {
+    // Получаем последнюю цифру числа
+    const digit = num % 10;
+    // Если текущая цифра больше или равна предыдущей, число не удовле-творяет условию
+    if (digit >= prevDigit) {
+      return false;
+    }
+    // Запоминаем текущую цифру
+    prevDigit = digit;
+    // Убираем последнюю цифру числа
+    num = Math.floor(num / 10);
+  }
+  return true;
+}
+
+let count;
+let numbersProcessed = 0;
+
+// Задаем вопрос пользователю: сколько чисел он собирается ввести
+rl.question('', (input) => {
+  count = parseInt(input);
+  // Начинаем процесс ввода чисел
+  askNumber();
+});
+
+function askNumber() {
+  // Задаем вопрос пользователю: введите число
+  rl.question('', (input) => {
+    const num = parseInt(input);
+    if (!isNaN(num)) {
+      // Если введенное значение число, проверяем, удовлетворяет ли оно условию
+      if (satisfiesCondition(num)) {
+        // Если удовлетворяет, переворачиваем число и выводим его
+        const reversed = reverseNumber(num);
+        process.stdout.write(reversed + ' ');
+      }
+    }
+    numbersProcessed++;
+    // Проверяем, сколько чисел уже было обработано
+    if (numbersProcessed < count) {
+      // Если остались числа для ввода, задаем вопрос снова
+      askNumber();
+    } else {
+      // Если все числа введены, закрываем интерфейс
+      rl.close();
+    }
+  });
+}

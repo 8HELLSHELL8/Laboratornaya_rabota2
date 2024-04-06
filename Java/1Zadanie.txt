@@ -1,0 +1,48 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+    // Метод для вычисления минимального количества операций
+    public static int minOperations(String inputString) {
+        // Получаем длину входной строки
+        int n = inputString.length();
+        // Создаем массив для хранения минимального количества операций для каждого индекса
+        int[] dp = new int[n + 1];
+        // Создаем хэш-таблицу для хранения последнего вхождения каждого символа
+        HashMap<Character, Integer> lastOccurrence = new HashMap<>();
+
+        // Проходим по каждому символу входной строки
+        for (int i = 1; i <= n; i++) {
+            // Инициализируем dp[i] как dp[i-1] + 1, предполагая, что необхо-димо добавить один символ
+            dp[i] = dp[i - 1] + 1;
+
+            // Получаем текущий символ
+            char currentChar = inputString.charAt(i - 1);
+            // Если последнее вхождение текущего символа существует в хэш-таблице
+            if (lastOccurrence.containsKey(currentChar)) {
+                // Обновляем dp[i] как минимум между текущим dp[i] и dp по-следнего вхождения символа + 1
+                dp[i] = Math.min(dp[i], dp[lastOccurrence.get(currentChar)] + 1);
+            }
+
+            // Обновляем хэш-таблицу последнего вхождения текущего символа
+            lastOccurrence.put(currentChar, i);
+        }
+
+        // Возвращаем минимальное количество операций для всей строки
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        // Создаем объект Scanner для чтения ввода пользователя
+        Scanner scanner = new Scanner(System.in);
+        // Выводим приглашение для пользователя ввести строку
+        System.out.print("Введите строку: ");
+        // Считываем введенную строку
+        String inputString = scanner.nextLine();
+        // Выводим минимальное количество операций
+        System.out.println("Минимальное количество операций: " + minOpera-tions(inputString));
+        // Закрываем объект Scanner
+        scanner.close();
+    }
+}
+

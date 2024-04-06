@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    // Функция для определения минимального количества операций
+    static int MinOperations(string inputString)
+    {
+        int n = inputString.Length;
+        int[] dp = new int[n + 1]; // Массив для хранения результатов подзадач
+        Dictionary<char, int> lastOccurrence = new Dictionary<char, int>(); // Словарь для отслеживания последнего вхождения каждого символа
+
+        for (int i = 1; i <= n; i++)
+        {
+            dp[i] = dp[i - 1] + 1; // Инициализируем dp[i] значением dp[i-1] + 1
+
+            // Если символ уже встречался ранее
+            if (lastOccurrence.ContainsKey(inputString[i - 1]))
+            {
+                int idx = lastOccurrence[inputString[i - 1]]; // Получаем индекс последнего вхождения символа
+                dp[i] = Math.Min(dp[i], dp[idx] + 1); // Обновляем dp[i] как минимум между текущим значением и dp[idx] + 1
+            }
+
+            lastOccurrence[inputString[i - 1]] = i; // Запоминаем индекс текущего вхождения символа
+        }
+
+        return dp[n]; // Возвращаем минимальное количество операций
+    }
+
+    static void Main(string[] args)
+    {
+        Console.Write("Введите строку: ");
+        string inputString = Console.ReadLine();
+        Console.WriteLine("Минимальное количество операций: " + MinOpera-tions(inputString));
+    }
+}
